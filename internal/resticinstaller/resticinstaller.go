@@ -244,12 +244,9 @@ func FindOrInstallResticBinary() (string, error) {
 		}
 	}
 
+
 	// Check for restic installation in data directory.
-	resticInstallPath := path.Join(config.DataDir(), resticBinName)
-	if runtime.GOOS == "windows" {
-		programFiles := os.Getenv("programfiles")
-		resticInstallPath = path.Join(programFiles, "backrest", resticBinName)
-	}
+	resticInstallPath := path.Join(config.DataDir(), resticBinName)g
 
 	// Install restic if not found.
 	if _, err := os.Stat(resticInstallPath); err != nil {
@@ -269,6 +266,8 @@ func FindOrInstallResticBinary() (string, error) {
 		zap.S().Infof("installed restic %v", RequiredResticVersion)
 		removeOldVersions(path.Dir(resticInstallPath))
 	}
+
+	zap.L().Debug(resticInstallPath)
 
 	return resticInstallPath, nil
 }
